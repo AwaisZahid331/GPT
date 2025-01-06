@@ -26,7 +26,7 @@ const App = () => {
     if (!msg) return;
 
     try {
-      const genAI = new GoogleGenerativeAI('AIzaSyDlsx6twz-CQxb-cG2m72Su8UGny18U16o');
+      const genAI = new GoogleGenerativeAI('YOUR_API_KEY');
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
       const result = await model.generateContent(msg);
 
