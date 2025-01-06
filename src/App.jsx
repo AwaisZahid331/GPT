@@ -54,7 +54,7 @@ const App = () => {
       {isResponseScreen ? (
         <div className="h-[80vh] flex flex-col">
           <div className="header pt-[25px] flex items-center justify-between w-[100vw] px-[300px]">
-            <h2 className="text-2xl">AssistMe</h2>
+            <h2 className="text-2xl">Assist_Me_Ai</h2>
             <button
               id="newChatBtn"
               className="bg-[#181818] p-[10px] rounded-[30px] cursor-pointer text-[14px] px-[20px]"
