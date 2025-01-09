@@ -1,6 +1,3 @@
-/* The provided code is a React component named `App` that serves as the main component for an
-application called AssistMe. Here is a breakdown of what the code is doing: */
-
 import React, { useState } from 'react';
 import './App.css';
 import { IoCodeSlash, IoSend } from 'react-icons/io5';
@@ -13,6 +10,7 @@ const App = () => {
   const [message, setMessage] = useState('');
   const [isResponseScreen, setisResponseScreen] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const hitRequest = () => {
     if (message.trim()) {
@@ -25,22 +23,28 @@ const App = () => {
   const generateResponse = async (msg) => {
     if (!msg) return;
 
+    setIsLoading(true); // Show loader
     try {
-      const genAI = new GoogleGenerativeAI('YOUR_API_KEY');
+      const genAI = new GoogleGenerativeAI('AIzaSyDlsx6twz-CQxb-cG2m72Su8UGny18U16o');
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
       const result = await model.generateContent(msg);
 
-      const newMessages = [
-        ...messages,
-        { type: 'userMsg', text: msg },
-        { type: 'responseMsg', text: result.response.text() },
-      ];
+      // Delay the response to make it appear smoothly
+      setTimeout(() => {
+        const newMessages = [
+          ...messages,
+          { type: 'userMsg', text: msg },
+          { type: 'responseMsg', text: result.response.text() },
+        ];
 
-      setMessages(newMessages);
-      setisResponseScreen(true);
-      setMessage('');
+        setMessages(newMessages);
+        setisResponseScreen(true);
+        setMessage('');
+        setIsLoading(false); // Hide loader
+      }, 2000);
     } catch (error) {
       console.error('Error generating response:', error);
+      setIsLoading(false); // Hide loader
     }
   };
 
@@ -70,6 +74,11 @@ const App = () => {
                 {msg.text}
               </div>
             ))}
+            {isLoading && (
+              <div className="loader text-center text-gray-400">
+                Generating response...
+              </div>
+            )}
           </div>
         </div>
       ) : (
